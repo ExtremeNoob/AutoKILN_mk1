@@ -1,3 +1,5 @@
+//----------------------------- Ne pas toucher ce code.  Bon pour verification --------
+
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 #include <Adafruit_SHT31.h>
@@ -14,7 +16,7 @@ void setup() {
   if (!sht31.begin(0x44) && !sht31.begin(0x45)) {
     lcd.clear();
     lcd.print("SHT31 not found");
-    while (1) delay(10);
+    while (1) delay(10);              // stops and loop endlessly here
   }
 }
 

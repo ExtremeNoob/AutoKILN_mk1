@@ -1,0 +1,34 @@
+#include "HX711.h"
+#include "pico_GPIO_Number.h"
+
+const int DOUT_PIN = GPIO11;   // GP4
+const int SCK_PIN  = GPIO10;   // GP5
+
+HX711 scale;
+
+float calibration_factor = -7050.0; // placeholder: you will change this
+
+void setup_scale() {
+  Serial.begin(115200);
+  delay(1000);
+
+  scale.begin(DOUT_PIN, SCK_PIN);
+  scale.set_scale();   // raw
+  scale.tare();        // zero the scale
+
+  Serial.println("HX711 ready. Remove all weight. Tare done.");
+}
+
+void loop() {
+  // Raw average (useful to see if wiring is good)
+  long raw = scale.read_average(10);
+
+  // Calibrated
+  scale.set_scale(calibration_factor);
+  float units = scale.get_units(10);
+
+  Serial.print("raw="); Serial.print(raw);
+  Serial.print("  units="); Serial.println(units);
+
+  delay(500);
+}
